@@ -1,0 +1,1660 @@
+<channel version="3.12.0">
+  <id>3210f1cd-30e0-408e-9fc7-ac40e0ce8b6c</id>
+  <nextMetaDataId>4</nextMetaDataId>
+  <name>Get ST</name>
+  <description></description>
+  <revision>12</revision>
+  <sourceConnector version="3.12.0">
+    <metaDataId>0</metaDataId>
+    <name>sourceConnector</name>
+    <properties class="com.mirth.connect.connectors.vm.VmReceiverProperties" version="3.12.0">
+      <pluginProperties/>
+      <sourceConnectorProperties version="3.12.0">
+        <responseVariable>d3</responseVariable>
+        <respondAfterProcessing>true</respondAfterProcessing>
+        <processBatch>false</processBatch>
+        <firstResponse>false</firstResponse>
+        <processingThreads>1</processingThreads>
+        <resourceIds class="linked-hash-map">
+          <entry>
+            <string>Default Resource</string>
+            <string>[Default Resource]</string>
+          </entry>
+        </resourceIds>
+        <queueBufferSize>1000</queueBufferSize>
+      </sourceConnectorProperties>
+    </properties>
+    <transformer version="3.12.0">
+      <elements/>
+      <inboundDataType>JSON</inboundDataType>
+      <outboundDataType>JSON</outboundDataType>
+      <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+        <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+          <splitType>JavaScript</splitType>
+          <batchScript></batchScript>
+        </batchProperties>
+      </inboundProperties>
+      <outboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+        <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+          <splitType>JavaScript</splitType>
+          <batchScript></batchScript>
+        </batchProperties>
+      </outboundProperties>
+    </transformer>
+    <filter version="3.12.0">
+      <elements/>
+    </filter>
+    <transportName>Channel Reader</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <waitForPrevious>true</waitForPrevious>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector version="3.12.0">
+      <metaDataId>1</metaDataId>
+      <name>TGT Ticket Check</name>
+      <properties class="com.mirth.connect.connectors.js.JavaScriptDispatcherProperties" version="3.12.0">
+        <pluginProperties/>
+        <destinationConnectorProperties version="3.12.0">
+          <queueEnabled>false</queueEnabled>
+          <sendFirst>false</sendFirst>
+          <retryIntervalMillis>10000</retryIntervalMillis>
+          <regenerateTemplate>false</regenerateTemplate>
+          <retryCount>0</retryCount>
+          <rotate>false</rotate>
+          <includeFilterTransformer>false</includeFilterTransformer>
+          <threadCount>1</threadCount>
+          <threadAssignmentVariable></threadAssignmentVariable>
+          <validateResponse>false</validateResponse>
+          <resourceIds class="linked-hash-map">
+            <entry>
+              <string>Default Resource</string>
+              <string>[Default Resource]</string>
+            </entry>
+          </resourceIds>
+          <queueBufferSize>1000</queueBufferSize>
+          <reattachAttachments>true</reattachAttachments>
+        </destinationConnectorProperties>
+        <script>return JsonUtil.prettyPrint(connectorMessage.getEncodedData());</script>
+      </properties>
+      <transformer version="3.12.0">
+        <elements>
+          <com.mirth.connect.plugins.javascriptstep.JavaScriptStep version="3.12.0">
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <script>var getTicket = true;
+
+if ( ! globalMap.get(&apos;umlsTGT&apos;) || ! globalMap.get(&apos;umlsExpiration&apos;) ) {
+	tmp[&apos;Message&apos;] = &apos;UMLS Get ST: Ticket or expiration date missing.&apos;;
+} else if ( globalMap.get(&apos;umlsExpiration&apos;) &lt;= (new Date().getTime() ) ){
+	tmp[&apos;Message&apos;] = &apos;UMLS Get ST: The ticket has expired.&apos;;
+} else {
+	getTicket = false;
+	tmp[&apos;Message&apos;] = &apos;UMLS Get ST: Ticket exists and is valid.&apos;;
+}
+
+channelMap.put(&apos;needticket&apos;, getTicket);</script>
+          </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
+        </elements>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <outboundTemplate encoding="base64">e30=</outboundTemplate>
+        <inboundDataType>JSON</inboundDataType>
+        <outboundDataType>JSON</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </transformer>
+      <responseTransformer version="3.12.0">
+        <elements/>
+        <inboundDataType>JSON</inboundDataType>
+        <outboundDataType>JSON</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </responseTransformer>
+      <filter version="3.12.0">
+        <elements/>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </connector>
+    <connector version="3.12.0">
+      <metaDataId>2</metaDataId>
+      <name>Get TGT ticket if needed</name>
+      <properties class="com.mirth.connect.connectors.js.JavaScriptDispatcherProperties" version="3.12.0">
+        <pluginProperties/>
+        <destinationConnectorProperties version="3.12.0">
+          <queueEnabled>false</queueEnabled>
+          <sendFirst>false</sendFirst>
+          <retryIntervalMillis>10000</retryIntervalMillis>
+          <regenerateTemplate>false</regenerateTemplate>
+          <retryCount>0</retryCount>
+          <rotate>false</rotate>
+          <includeFilterTransformer>false</includeFilterTransformer>
+          <threadCount>1</threadCount>
+          <threadAssignmentVariable></threadAssignmentVariable>
+          <validateResponse>false</validateResponse>
+          <resourceIds class="linked-hash-map">
+            <entry>
+              <string>Default Resource</string>
+              <string>[Default Resource]</string>
+            </entry>
+          </resourceIds>
+          <queueBufferSize>1000</queueBufferSize>
+          <reattachAttachments>true</reattachAttachments>
+        </destinationConnectorProperties>
+        <script>return JsonUtil.prettyPrint(connectorMessage.getEncodedData());</script>
+      </properties>
+      <transformer version="3.12.0">
+        <elements>
+          <com.mirth.connect.plugins.javascriptstep.JavaScriptStep version="3.12.0">
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <script>var tgt = router.routeMessage(&apos;Get TGT&apos;, &apos;Get ST&apos;);
+
+try {
+	var tgtresp = JSON.parse(tgt.getMessage() );
+	var tgturl = tgtresp[&apos;TGTURL&apos;];
+
+	tmp[&apos;umlsTicket&apos;] = tgturl;
+
+	globalMap.put(&apos;umlsTGT&apos;, tgturl);
+
+	var expires = new Date();
+	expires.setHours( expires.getHours() + 7 );
+	globalMap.put(&apos;umlsExpiration&apos;, expires.getTime() );
+	tmp[&apos;umlsExpiration&apos;] = expires.getTime();
+	
+} catch (ex) {
+	tmp[&apos;Error&apos;] = ex;
+	logger.error(&apos;UMLS Get ST.[Get TGT ticket if needed] -- &apos; + ex);
+}</script>
+          </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
+        </elements>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <outboundTemplate encoding="base64">e30=</outboundTemplate>
+        <inboundDataType>JSON</inboundDataType>
+        <outboundDataType>JSON</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </transformer>
+      <responseTransformer version="3.12.0">
+        <elements/>
+        <inboundDataType>JSON</inboundDataType>
+        <outboundDataType>JSON</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </responseTransformer>
+      <filter version="3.12.0">
+        <elements>
+          <com.mirth.connect.plugins.javascriptrule.JavaScriptRule version="3.12.0">
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <script>return $(&apos;needticket&apos;);</script>
+          </com.mirth.connect.plugins.javascriptrule.JavaScriptRule>
+        </elements>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </connector>
+    <connector version="3.12.0">
+      <metaDataId>3</metaDataId>
+      <name>Get ST</name>
+      <properties class="com.mirth.connect.connectors.http.HttpDispatcherProperties" version="3.12.0">
+        <pluginProperties/>
+        <destinationConnectorProperties version="3.12.0">
+          <queueEnabled>false</queueEnabled>
+          <sendFirst>false</sendFirst>
+          <retryIntervalMillis>10000</retryIntervalMillis>
+          <regenerateTemplate>false</regenerateTemplate>
+          <retryCount>0</retryCount>
+          <rotate>false</rotate>
+          <includeFilterTransformer>false</includeFilterTransformer>
+          <threadCount>1</threadCount>
+          <threadAssignmentVariable></threadAssignmentVariable>
+          <validateResponse>false</validateResponse>
+          <resourceIds class="linked-hash-map">
+            <entry>
+              <string>Default Resource</string>
+              <string>[Default Resource]</string>
+            </entry>
+          </resourceIds>
+          <queueBufferSize>1000</queueBufferSize>
+          <reattachAttachments>true</reattachAttachments>
+        </destinationConnectorProperties>
+        <host>${url}</host>
+        <useProxyServer>false</useProxyServer>
+        <proxyAddress></proxyAddress>
+        <proxyPort></proxyPort>
+        <method>post</method>
+        <headers class="linked-hash-map"/>
+        <parameters class="linked-hash-map">
+          <entry>
+            <string>service</string>
+            <list>
+              <string>http://umlsks.nlm.nih.gov</string>
+            </list>
+          </entry>
+        </parameters>
+        <useHeadersVariable>false</useHeadersVariable>
+        <headersVariable></headersVariable>
+        <useParametersVariable>false</useParametersVariable>
+        <parametersVariable>parametersMap</parametersVariable>
+        <responseXmlBody>false</responseXmlBody>
+        <responseParseMultipart>true</responseParseMultipart>
+        <responseIncludeMetadata>false</responseIncludeMetadata>
+        <responseBinaryMimeTypes>application/.*(?&lt;!json|xml)$|image/.*|video/.*|audio/.*</responseBinaryMimeTypes>
+        <responseBinaryMimeTypesRegex>true</responseBinaryMimeTypesRegex>
+        <multipart>false</multipart>
+        <useAuthentication>false</useAuthentication>
+        <authenticationType>Basic</authenticationType>
+        <usePreemptiveAuthentication>false</usePreemptiveAuthentication>
+        <username></username>
+        <password></password>
+        <content>${message.encodedData}</content>
+        <contentType>application/x-www-form-urlencoded</contentType>
+        <dataTypeBinary>false</dataTypeBinary>
+        <charset>UTF-8</charset>
+        <socketTimeout>30000</socketTimeout>
+      </properties>
+      <transformer version="3.12.0">
+        <elements>
+          <com.mirth.connect.plugins.javascriptstep.JavaScriptStep version="3.12.0">
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <script>var url = globalMap.get(&apos;umlsTGT&apos;);
+channelMap.put(&apos;url&apos;, url);</script>
+          </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
+        </elements>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <outboundTemplate encoding="base64">e30=</outboundTemplate>
+        <inboundDataType>JSON</inboundDataType>
+        <outboundDataType>RAW</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.json.JSONDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.json.JSONBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </transformer>
+      <responseTransformer version="3.12.0">
+        <elements/>
+        <inboundDataType>RAW</inboundDataType>
+        <outboundDataType>RAW</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </responseTransformer>
+      <filter version="3.12.0">
+        <elements/>
+      </filter>
+      <transportName>HTTP Sender</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </connector>
+  </destinationConnectors>
+  <preprocessingScript>// Modify the message variable below to pre process data
+return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+// Responses returned from here will be stored as &quot;Postprocessor&quot; in the response map
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <undeployScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</undeployScript>
+  <properties version="3.12.0">
+    <clearGlobalChannelMap>true</clearGlobalChannelMap>
+    <messageStorageMode>DEVELOPMENT</messageStorageMode>
+    <encryptData>false</encryptData>
+    <removeContentOnCompletion>false</removeContentOnCompletion>
+    <removeOnlyFilteredOnCompletion>false</removeOnlyFilteredOnCompletion>
+    <removeAttachmentsOnCompletion>false</removeAttachmentsOnCompletion>
+    <initialState>STARTED</initialState>
+    <storeAttachments>true</storeAttachments>
+    <metaDataColumns>
+      <metaDataColumn>
+        <name>SOURCE</name>
+        <type>STRING</type>
+        <mappingName>mirth_source</mappingName>
+      </metaDataColumn>
+      <metaDataColumn>
+        <name>TYPE</name>
+        <type>STRING</type>
+        <mappingName>mirth_type</mappingName>
+      </metaDataColumn>
+    </metaDataColumns>
+    <attachmentProperties version="3.12.0">
+      <type>None</type>
+      <properties/>
+    </attachmentProperties>
+    <resourceIds class="linked-hash-map">
+      <entry>
+        <string>Default Resource</string>
+        <string>[Default Resource]</string>
+      </entry>
+    </resourceIds>
+  </properties>
+  <exportData>
+    <metadata>
+      <enabled>true</enabled>
+      <lastModified>
+        <time>1630524158810</time>
+        <timezone>America/Chicago</timezone>
+      </lastModified>
+      <pruningSettings>
+        <pruneMetaDataDays>14</pruneMetaDataDays>
+        <archiveEnabled>true</archiveEnabled>
+        <pruneErroredMessages>false</pruneErroredMessages>
+      </pruningSettings>
+    </metadata>
+    <codeTemplateLibraries>
+      <codeTemplateLibrary version="3.12.0">
+        <id>3507c4a9-1a50-48fa-921d-eab4057227f8</id>
+        <name>Allscripts utilities</name>
+        <revision>1</revision>
+        <lastModified>
+          <time>1630421073293</time>
+          <timezone>America/Chicago</timezone>
+        </lastModified>
+        <description></description>
+        <includeNewChannels>true</includeNewChannels>
+        <enabledChannelIds>
+          <string>0e1743e4-16b0-4fa5-9277-e8bb6c7073ca</string>
+          <string>c18ce06c-4899-4a9a-8036-09307e90af7e</string>
+          <string>83bd0f3c-e84c-4386-b0b9-5fe832b3aaf1</string>
+          <string>2b4af1c2-470b-474b-a24e-8ab334291b72</string>
+          <string>8afa4aab-61ba-4697-bf16-cb633cd3b43b</string>
+          <string>918a812c-3beb-4a86-9bac-dcc5e4b34e00</string>
+          <string>83fcedc3-1d37-4256-bc69-d6b2ca98eafb</string>
+          <string>3210f1cd-30e0-408e-9fc7-ac40e0ce8b6c</string>
+          <string>d7d46411-436c-4f7e-9465-b1af56b0c708</string>
+          <string>e7ac82db-cd0f-450a-8e0b-07db7e8239b4</string>
+          <string>5a1e99ff-bf93-496f-8d32-7d98571662ad</string>
+          <string>b7292c27-4237-4fde-bbf2-ba24be2d3530</string>
+          <string>e8234e0d-5a2a-411d-bbcc-29c1a54aad36</string>
+          <string>f8b2c92f-6bd7-4a82-bff0-1c5ce55980b0</string>
+          <string>fc7827ac-0b31-4a73-8e10-91879a6b1dd4</string>
+          <string>78bfdc9a-f3cf-450d-862a-375679a5417b</string>
+          <string>6ba3313e-024c-4ee5-b50e-23f89f8b88da</string>
+          <string>4eab8473-302c-48f5-835c-1a000e5a9e12</string>
+          <string>95dc9a4e-4626-422b-8e11-5301dc51ee9d</string>
+          <string>2e39c708-aa7c-47eb-8c5a-399274bfbdd3</string>
+          <string>7324cb6e-a561-4665-bfa2-da62c7d702f2</string>
+          <string>8df771c6-21f8-44ec-9e3a-01e141c8877e</string>
+          <string>d9ced11a-1ab9-4e6c-9bf0-acc7f3f98627</string>
+          <string>6c299fe7-0732-4a9d-9e49-fcfc7849a996</string>
+          <string>126041e2-7712-4635-a9b4-a2ecbae14744</string>
+          <string>66e49f3b-14cc-41ea-9df5-0a838961dcd2</string>
+          <string>ee35cf62-b2f8-4683-babf-cc7f8217c797</string>
+          <string>305da644-179e-42ff-a39c-fc496850396d</string>
+          <string>f054f263-f5da-496c-9185-fe2b36eaef19</string>
+          <string>be5b293f-9a55-47cc-b545-12e5240c19e9</string>
+          <string>5cb2b59b-0e63-483d-af82-e0e87d665b7a</string>
+          <string>58b20e28-cf24-4696-a1d0-74943b8bb414</string>
+          <string>e5da8a1e-6233-43a3-901d-0ac1a260c8ba</string>
+          <string>b77fc79a-8fe9-4f47-9acf-cba72141853b</string>
+          <string>bc69e6fa-e3d9-4cce-8c3f-9ae32156ec6f</string>
+          <string>ff9b2acc-8453-4a76-b01e-94f4b85881c5</string>
+          <string>fdd9002c-e4de-4982-b5a8-5d3da654cc9d</string>
+          <string>3c122e7c-d226-4d22-9710-c5a779c2f119</string>
+          <string>19376789-8121-4761-ab66-ba9cb8ccbf53</string>
+          <string>0686f928-57fd-4631-b075-62ae7061ae7f</string>
+          <string>1ea395b5-3704-41d4-9690-a08a5e97db4e</string>
+          <string>47ee2747-a4e3-40a6-ad85-1b588570465b</string>
+          <string>479c746b-da35-470e-a3b7-6962dce57f58</string>
+          <string>6a128bab-7839-46d1-8317-031c6d403554</string>
+          <string>00cd3c79-2f4f-4e3a-a760-dee4390717db</string>
+          <string>aea76463-1634-4893-9646-7c5c7b221107</string>
+          <string>479f343a-84b3-4ef4-a567-25ac2aa53d72</string>
+          <string>87e062a6-7205-4532-ac9a-ac3172a2d3de</string>
+        </enabledChannelIds>
+        <disabledChannelIds>
+          <string>7560b3c4-56cb-4341-8d2a-c94bf44e3710</string>
+          <string>ad73c99c-f06c-400c-b43c-6725052335d2</string>
+          <string>8c2fd7cd-c9a0-4e5d-ab54-d63725af5a05</string>
+          <string>f8ea3d2e-3db1-4e0d-bd08-24a1144fad1b</string>
+          <string>0ae5445e-69e5-48dd-846b-e8a380ed3626</string>
+          <string>cbf2ed53-5797-4571-b67e-9e256901c632</string>
+          <string>bc0e237d-3ac9-48f8-b9d3-7ccee1f46208</string>
+          <string>5cf29862-74e5-47a6-a562-f0dd2d2fc5cc</string>
+          <string>d1e037e4-7072-4e07-bc92-a4f362b07204</string>
+          <string>4f81d4d0-87f9-4e25-812d-2ccd29c021c1</string>
+          <string>bc9c9853-6d25-4d91-a340-39dfe9a8dd48</string>
+          <string>c4c54013-c027-4651-8daf-f8f9c3844454</string>
+          <string>c51be7d7-b1ed-43a0-93c8-1c29b965b3fc</string>
+          <string>c557016e-3eb6-41ee-b58a-9f1d18915eb6</string>
+          <string>5871438d-0ffd-48e7-add9-62d41bac2c96</string>
+          <string>10325bc1-d55d-4d6d-b398-e4b7d71e8a17</string>
+          <string>8e48bc4b-af4e-43fd-b8f9-72498e846b83</string>
+          <string>3d48719b-6061-4803-9e4d-57d8ce753187</string>
+          <string>02b869b6-2a81-4fc7-b35c-760b8f8511b5</string>
+          <string>90975e14-96c9-4a80-b689-8fd3b375a1e3</string>
+          <string>fb576e0a-8b0f-4860-8e4b-6ec307b79cca</string>
+          <string>bb8409f6-d8b4-4973-9747-aa97df73654b</string>
+          <string>af23886c-b497-40e3-ad0c-9b82b80e6906</string>
+          <string>45319106-7423-412e-b877-ce5499f8b5cb</string>
+          <string>5ef17124-4542-4377-b4eb-87f100f5b47b</string>
+          <string>7a58625e-bfa8-40c8-a9f4-fe49d4ecdbaa</string>
+          <string>cb9cab06-9bb4-47a6-96bb-fe3b520b8009</string>
+          <string>26686635-4400-4da2-84cd-fbbbda5eb368</string>
+          <string>79349a59-3e8e-4a53-bb31-4b2c2cae9900</string>
+          <string>40fc25ef-1835-413e-9fd6-34970e05c345</string>
+          <string>22fde036-2344-4119-8a12-e5a2430d2396</string>
+          <string>d0da61ae-b7ce-4047-a2eb-ce5252df03a6</string>
+          <string>03e97b2e-2cbe-4c59-b306-53ae7f254412</string>
+          <string>aabd5bac-9264-43e0-9d09-96f233a8f821</string>
+          <string>1f84850a-7dee-4eeb-9151-3d3213562696</string>
+          <string>2c1d2d84-d68a-4154-b879-bb1587da496b</string>
+          <string>e2e6a600-d60f-449f-a7ae-092fe32f32fd</string>
+          <string>cccbbd40-818b-4ea4-a35d-5f0f1cafbfdf</string>
+          <string>a7b6300e-e2ed-4695-81f2-19021d989314</string>
+          <string>de5b3ec8-2c17-45ba-8c04-8ed8530d575d</string>
+          <string>2eb3dd01-221c-4ee3-b38d-fe03769c8671</string>
+          <string>ab7c5d6b-5d02-4a46-a7eb-8167ec182784</string>
+          <string>a3074b49-9f3b-4393-90a1-f367705dea7a</string>
+          <string>a90d7156-3040-4fb5-a8ed-3aa2d35e69be</string>
+          <string>99a33d8a-e321-4975-9f3f-97f7501270f0</string>
+          <string>0b5a0af6-17d7-4a92-bc88-53ed4821f32c</string>
+          <string>6cdebbe1-2faa-4bdb-a41d-e675c03017db</string>
+          <string>37ce3842-ad95-48f9-8a80-ebcc556d5837</string>
+          <string>fd277eec-ce99-4fda-b028-a4281c13d64b</string>
+          <string>9c0d21f5-aac0-4afc-9b9c-3fabef07c9d8</string>
+          <string>00170997-b971-4837-a80c-7e09838cb6b7</string>
+          <string>ab792fc9-1871-4a8e-9424-d79604d8f73b</string>
+          <string>dd94a1ac-1c48-4160-929c-cbd113e5fa48</string>
+          <string>d0d3a02c-6b11-45e1-8af2-871a58bdce78</string>
+          <string>1efd2468-f154-4f59-8750-433487c2c85e</string>
+          <string>8f7901f0-1991-4ee8-a7e4-8e399f7243a8</string>
+          <string>52c3cbab-623a-48d7-be94-5f5b0a65e820</string>
+          <string>62c42d92-1eb1-47b4-82fe-9e54493cd630</string>
+          <string>643274d3-0b27-4261-9845-88bf97a1cc34</string>
+          <string>1b514f75-4a5e-432b-968c-4bd460f4469c</string>
+          <string>68166ea4-2f85-49e8-be83-04ed14c4d58e</string>
+          <string>b1496c9b-a44f-406f-b08b-9ad273d3b791</string>
+          <string>068e9c8c-2f57-4965-b186-197c06ee1698</string>
+          <string>78e9db5d-a9e6-4c80-a632-cbd6b0fb0b94</string>
+          <string>bd5a27ac-e6f1-4a14-b7fd-ad310ed0bb12</string>
+          <string>2d82b884-dade-4d0e-b7fb-7b2bafb9c923</string>
+          <string>4f370a51-c383-47c1-a85d-e09a4b15b536</string>
+          <string>d6824893-4e76-4a2f-bd19-86f0d83f1ff9</string>
+          <string>9837d0aa-2d18-49bf-a6ea-0f51b9e11b07</string>
+          <string>e3a133f2-8406-4e36-8bab-0603b84b7407</string>
+          <string>1100b187-6d00-4953-b1fd-3b03c7f42aea</string>
+          <string>957a098f-4570-4d5b-8e7e-645e406d030e</string>
+          <string>dfef687c-bd05-4f9a-b279-801a70165cc7</string>
+          <string>35feb125-fe65-4be1-a62e-2bf907d52e15</string>
+          <string>d67c089a-af71-4bdd-a46a-a64bb83082a8</string>
+          <string>79f0e2f7-ad60-466d-8148-6274a168c1c2</string>
+          <string>7911eda4-263c-41af-b73a-862dedb334e8</string>
+          <string>4a3bfa4d-6ccc-4135-b37a-20594a8ef0e0</string>
+          <string>7b583b0e-d2b5-42a9-ac0b-50d266c0853a</string>
+          <string>d4fba75c-3876-4b6a-bee0-8a524e78eb06</string>
+          <string>266fb6a3-ae62-41fe-8f38-05a4334b0dfe</string>
+          <string>6f10e541-6bcd-46be-a514-5280b38e4ce0</string>
+          <string>4ffa3ad4-f0e3-41fc-976c-309f24ae5982</string>
+          <string>1607d03b-c1a8-427e-ab0c-8c9265cde28d</string>
+          <string>71471c1f-76d5-4785-9c16-164a6965811e</string>
+          <string>859d9503-6e58-4cf1-80e9-045368570c6b</string>
+          <string>d1bd4a04-b1e4-450e-86bf-3bb2f013bb43</string>
+          <string>e55ced9e-267a-4d6b-98c3-d83ec4dedd06</string>
+          <string>b397d48d-6b32-4ac9-9b96-2466192eedb0</string>
+          <string>6e0c419c-a4a7-4300-b672-b7a7dc57b216</string>
+          <string>86aa85e8-961a-4a57-8b86-715d9a8e274e</string>
+          <string>84b61eb3-8bcc-4107-ab30-ab4d46e15cb3</string>
+          <string>cbd5ea09-5ea6-463d-9400-455030e11958</string>
+          <string>d9b622e5-055a-40a1-bb98-11d7e5764ea0</string>
+          <string>54a4e2c4-3cc6-4baa-ae96-9c8a26732b49</string>
+          <string>c584f762-a193-4de3-9829-ae52858b52a7</string>
+          <string>93b01f2f-6c9c-421f-9219-87d4712aa2e8</string>
+          <string>6647f8ee-7807-4f37-9a9f-1c80a01ae22e</string>
+          <string>612e9588-3ba3-4b78-87bc-b10f6409bf19</string>
+          <string>ad2e1794-e299-4d8d-8505-cb0f0a7ba394</string>
+          <string>8cf1aa4d-a396-495a-9c4f-e9fbed5b63b8</string>
+          <string>58ec08e0-28ae-4c60-9aee-f3335fb1669e</string>
+          <string>dcbfbe54-8488-4884-a87f-7c74c5394ab9</string>
+          <string>d59edecb-ebea-48c3-974c-b53eac106dfb</string>
+          <string>84758aa6-77d2-42e5-b786-c5d09dd8a72f</string>
+          <string>18b52af8-2f80-4c40-b086-7f8a2ef6afcf</string>
+          <string>a7f0ddb0-32f8-48d2-bec5-cef9291eef9f</string>
+          <string>c5cdfcd0-a1ae-457c-b786-3656c7f191b4</string>
+          <string>669dec7b-f2b3-4851-91b4-7e8cce27a97a</string>
+          <string>d7abfcf3-bd80-490e-a2f2-861f709a1d47</string>
+          <string>d2feff89-411c-43d1-a743-e95e8b52f747</string>
+          <string>fe0c46cd-f3f4-4f57-87c7-d7e70f0a1d58</string>
+          <string>98a2b910-3ffa-4a60-8092-830eb6d44d6f</string>
+          <string>4257cc12-084a-479d-aecc-3264c5b8a1cd</string>
+          <string>43c9fae2-358b-41b1-aa42-4c9f39a66004</string>
+          <string>af3fd7a7-d3c2-4239-8124-ae2569a4938c</string>
+          <string>757ace33-a41d-4e88-b053-e34bc04d7a5b</string>
+          <string>ea3dd9e4-26b3-44fc-97a5-7eaeac72be3b</string>
+          <string>678fb3d7-39d3-4a0c-b6aa-f4c8c2e8878e</string>
+          <string>b7f9a08a-01bf-44ec-b5b6-71b24e60ee5d</string>
+          <string>2f4d5351-8d91-4f91-a37b-40e83d42c52b</string>
+          <string>06a06060-690e-4397-8ae0-ba69201d5a1e</string>
+          <string>088c9ccf-84f8-4da3-ba8b-ca068a1bf1bf</string>
+          <string>d11feb04-0234-4e4b-8572-4c8ed91a4e38</string>
+          <string>0a7d7a26-a54e-4ba4-b0ae-d2f0b0106d03</string>
+          <string>0f7d7dab-8d1a-4343-9911-804cce19f132</string>
+          <string>0473ca39-031e-41fa-85d0-f1a550034097</string>
+          <string>c64cd834-7f07-4058-8e9e-ce400ab18824</string>
+          <string>984c42ce-ea85-42c9-97da-7764033236f1</string>
+          <string>0e8f4eac-63db-4ca8-bf35-74dfe1f581cd</string>
+          <string>fba73e3b-4ee0-431e-90a9-e684e44aa27c</string>
+          <string>01b3e05f-24ad-4d77-a0e1-6629f500684e</string>
+          <string>9f4e4ea3-783d-4faf-9981-1f8d7b46f3ab</string>
+          <string>5500395b-033b-4009-8f0a-14e713eef47d</string>
+          <string>bf8f3203-d227-4093-90bd-489079fc06db</string>
+          <string>741965a9-286a-4a50-9e69-1f8e09094b86</string>
+          <string>5cffb3c4-eac4-423a-8c91-657c8a266041</string>
+          <string>fbfddc95-7069-4270-807c-db772aecd0b3</string>
+          <string>bd83ee38-1c2e-44b0-b693-7f869a4bd931</string>
+          <string>cd694f36-e040-491f-a66d-f6205143cf43</string>
+          <string>54284dce-bb64-45f4-ac06-2dcefed217d0</string>
+          <string>7f258d2e-7e79-4e00-a40f-23e9bb17f5ec</string>
+          <string>43511682-4eee-4d62-a307-1bed6ecb6de9</string>
+          <string>4406245d-cd8e-43ce-8fd1-2369a9a9570d</string>
+          <string>b08db4de-7d3d-44c6-8b88-eee341d892aa</string>
+          <string>1892f241-d643-4abb-b0af-b20b87e0cf12</string>
+          <string>7e41f64e-78be-4eee-8b23-22cc593412d8</string>
+          <string>73fb68fd-3f42-4b32-8597-760313a538d4</string>
+          <string>c01c0bc6-90dc-4278-b47a-f91708703f67</string>
+          <string>1789856a-68e2-4b32-a977-c6a5f3b31e98</string>
+          <string>49c364ef-c356-47f4-967c-0b7e0cea8806</string>
+          <string>90b46e09-9868-46f0-8d8d-29e360eab6bf</string>
+          <string>11c973b4-3ca0-4b40-bf94-051dc990a9df</string>
+          <string>673c798a-0551-4d96-bae8-bff2b228ea68</string>
+          <string>e66435da-3c65-4d0a-84ac-b3ceab99cc0a</string>
+          <string>c033427b-ca32-40ee-995e-864d1cdcce56</string>
+          <string>75f792d1-4fd0-4928-8a19-4fe08fe4223c</string>
+          <string>eca245d7-178a-477c-a99a-3d78e41d172d</string>
+          <string>46c3a281-719f-48e0-91e4-4d4a9f88f233</string>
+          <string>b58fdbf3-7ba0-41c2-ba84-67a974ce3552</string>
+          <string>21e6b321-c9b9-4df2-b1d0-74d289bfa75f</string>
+          <string>2b4af122-2751-4b1e-8e3f-6bd9d864f37f</string>
+          <string>e6d21fe1-8087-490b-9ec4-83a113caedac</string>
+          <string>67f2a643-a290-4527-b8c2-94d611afd190</string>
+          <string>c9cb1990-03df-4c15-9f05-4e9541c5aa03</string>
+          <string>3ca6a609-8f66-4086-bfd1-5745c9fc37a7</string>
+          <string>c7b0a44e-f0db-4aa6-a228-ec6ade32d360</string>
+          <string>05e8b7e2-4d52-4ab8-86c5-2745cb471d63</string>
+          <string>1866ec86-d073-41ea-9d57-69106a033544</string>
+          <string>ce39cbb6-6941-4fd6-b006-4e72a177ac43</string>
+          <string>68e3f318-e11f-4835-a928-44c752cbf85b</string>
+          <string>aef1ee80-675c-4dce-b3cd-524183afe727</string>
+          <string>4efa9998-3b1b-4613-865d-a4c66aecfded</string>
+          <string>85da4819-5fbb-4135-b289-76cfbf283770</string>
+          <string>52b06701-6fb5-47fb-a21a-527093378eed</string>
+          <string>14156a66-f8d0-4280-bd30-aea85d86b547</string>
+          <string>478601fa-f4fa-4118-aa70-429da68238cc</string>
+          <string>9b1dda8a-a030-4a65-b5ef-89874b529cd2</string>
+          <string>c948285d-27a2-4e9f-b97b-c70ca52e5bcb</string>
+          <string>6f297bdf-24fb-48fd-9787-201b0bada2cf</string>
+          <string>a1a92557-a174-4cbb-b906-1a0c20f50e96</string>
+          <string>bd298ef7-4bde-4e48-9897-5baa3f7fa992</string>
+          <string>f3c21099-5085-43ef-8e44-5ed33c063628</string>
+          <string>833065be-0dfa-4505-a3e7-d0d19a64b958</string>
+          <string>83476c56-033e-419d-9a5d-342e503ef719</string>
+          <string>5d7dc42e-7f41-4b1c-bd81-853ed347d7b5</string>
+          <string>8d9286af-08cd-4111-af15-cdaddbdff354</string>
+          <string>674895a3-8875-473e-9f80-48df6ddbc84d</string>
+          <string>67fcee81-0c40-40f8-94cc-2baf39ae95c9</string>
+          <string>4641cd9b-5db4-4785-a6fd-5d80ee52d685</string>
+          <string>1debc419-2af4-4f9b-9090-ec8a2983c4b9</string>
+          <string>6f3430b0-88b1-4d4c-9bf8-83e5564ded63</string>
+          <string>21338181-6a92-4164-a212-72f852aa8e65</string>
+          <string>ab349917-40ae-44ff-b334-7373bcbe0bb2</string>
+          <string>e6e7f10b-50b2-46dc-a1d3-eb6276bb72a1</string>
+          <string>882b6379-6097-44be-aac2-38c3d93de57c</string>
+          <string>6a391b2c-641e-4987-baca-2441af46002b</string>
+          <string>d5995254-0d02-4aa4-aec5-5d4a6d88fb15</string>
+          <string>93d3fd1c-e01d-4662-a511-f409304b7294</string>
+          <string>f6a827c1-9156-49ff-926d-605d40950302</string>
+          <string>3e5e1f51-9695-4e44-bb4a-d42b474c65cd</string>
+          <string>147d3300-8604-406e-a089-13a84851e2ec</string>
+          <string>ae74c609-19de-46ae-ae3d-9706278464a8</string>
+          <string>3ed5eb7a-403c-471f-a5ec-3a82ae56c32c</string>
+          <string>781f1497-2554-4eca-ad9c-0d318a841aa2</string>
+        </disabledChannelIds>
+        <codeTemplates>
+          <codeTemplate version="3.12.0">
+            <id>404119c8-2966-4c92-94b7-9398da6c5950</id>
+            <name>Fix janky date</name>
+            <revision>1</revision>
+            <lastModified>
+              <time>1630421073378</time>
+              <timezone>America/Chicago</timezone>
+            </lastModified>
+            <contextSet>
+              <delegate>
+                <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+                <contextType>DESTINATION_DISPATCHER</contextType>
+                <contextType>SOURCE_RECEIVER</contextType>
+                <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+                <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+              </delegate>
+            </contextSet>
+            <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+              <type>FUNCTION</type>
+              <code>/**
+	This template accepts a date in yy-MMM-yyyy format with a 12-hour time + am/pm, modifies it into a
+	valid format, and returns a valid Date object.
+
+	@param {String} jankdate - the poorly-formatted date string
+	@return {Date} a valid JavaScript Date object
+*/
+function fixjankassdate(jankdate) {
+	//19-May-2021 2:44 pm to 5/19/2021
+	//6/1/2021 1:51:00 AM
+	//12/21/2020 4:09:44 PM
+	logger.info(&apos;jankdate = &apos; + jankdate);
+	
+	const BAD_DATE = 0;
+	const BAD_TIME = 1;
+	const BAD_PERIOD = 2;
+	const BAD_DAY = 0;
+	const BAD_MONTH = 1;
+	const BAD_YEAR = 2;
+	const BAD_HOUR = 0;
+	const BAD_MINUTES = 1;
+	const BAD_SECONDS = 2;
+	const months = {
+		Jan: 0,
+		Feb: 1,
+		Mar: 2,
+		Apr: 3,
+		May: 4,
+		Jun: 5,
+		Jul: 6,
+		Aug: 7,
+		Sep: 8,
+		Oct: 9,
+		Nov: 10,
+		Dec: 11
+	};
+	
+	var spliced = jankdate.split(&apos; &apos;);
+	if (spliced[BAD_DATE].indexOf(&quot;/&quot;) &gt; -1) {
+		//6/1/2021 1:51:00 AM
+		var SPLIT_CHAR = &quot;/&quot;;
+		var splitdate = spliced[BAD_DATE].split(SPLIT_CHAR);
+		var splittime = spliced[BAD_TIME].split(&apos;:&apos;);
+
+		var day = splitdate[1];
+		var month = splitdate[0]-1;
+		var year = splitdate[BAD_YEAR];
+	} else {
+		//19-May-2021 2:44 pm
+		var SPLIT_CHAR = &quot;-&quot;;
+		var splitdate = spliced[BAD_DATE].split(SPLIT_CHAR);
+		var splittime = spliced[BAD_TIME].split(&apos;:&apos;);
+
+		var day = splitdate[BAD_DAY];
+		var month = months[splitdate[BAD_MONTH]];
+		var year = splitdate[BAD_YEAR];
+	}
+	
+	if (spliced[BAD_PERIOD].toLowerCase() == &apos;pm&apos;)
+		var hour = parseInt(splittime[BAD_HOUR]) + 12;
+	else
+		var hour = splittime[BAD_HOUR];
+	var minutes = splittime[BAD_MINUTES];
+	
+	//new Date(year, month, day, hours, minutes, seconds, milliseconds)
+	var cleandate = new Date(year, month, day, hour, minutes, 0, 0);
+	logger.info(year + &apos; &apos; + month + &apos; &apos; + day + &apos; &apos; + hour + &apos; &apos; + minutes);
+	logger.info(cleandate.toString());
+	return cleandate;
+	
+}</code>
+            </properties>
+          </codeTemplate>
+          <codeTemplate version="3.12.0">
+            <id>deb2a54a-5cc2-4f1b-b121-f394d7f2acfc</id>
+            <name>Get allergy reaction code</name>
+            <revision>1</revision>
+            <lastModified>
+              <time>1630421073476</time>
+              <timezone>America/Chicago</timezone>
+            </lastModified>
+            <contextSet>
+              <delegate>
+                <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+                <contextType>DESTINATION_DISPATCHER</contextType>
+                <contextType>SOURCE_RECEIVER</contextType>
+                <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+                <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+              </delegate>
+            </contextSet>
+            <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+              <type>FUNCTION</type>
+              <code>/**
+	This template accepts a string containing an allery reaction (called &quot;manifestations&quot; in Allscripts)
+	and returns the transid for that reaction/manifestation
+
+	@param {String} reaction - Manifestation name as listed in Touchworks SearchAllergy response
+	@return {String} return transid
+*/
+function getAllergyManifestationTransid(reaction) {
+	var reactions = [
+      {
+        &quot;transid&quot; : &quot;22&quot;,
+        &quot;manifestation&quot; : &quot;Abdominal pain&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;3&quot;,
+        &quot;manifestation&quot; : &quot;Anaphylaxis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;31&quot;,
+        &quot;manifestation&quot; : &quot;Anemia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;37&quot;,
+        &quot;manifestation&quot; : &quot;Angina&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;58&quot;,
+        &quot;manifestation&quot; : &quot;Angioedema&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;38&quot;,
+        &quot;manifestation&quot; : &quot;Anorexia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;59&quot;,
+        &quot;manifestation&quot; : &quot;Anxiety&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;30&quot;,
+        &quot;manifestation&quot; : &quot;Arrhythmia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;33&quot;,
+        &quot;manifestation&quot; : &quot;Asthma&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;60&quot;,
+        &quot;manifestation&quot; : &quot;Bleeding&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;28&quot;,
+        &quot;manifestation&quot; : &quot;Bradycardia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;61&quot;,
+        &quot;manifestation&quot; : &quot;Cardiac arrest&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;62&quot;,
+        &quot;manifestation&quot; : &quot;Cerebral vasculitis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;63&quot;,
+        &quot;manifestation&quot; : &quot;Chest pain&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;64&quot;,
+        &quot;manifestation&quot; : &quot;Coagulation disorder&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;39&quot;,
+        &quot;manifestation&quot; : &quot;Confusion&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;5&quot;,
+        &quot;manifestation&quot; : &quot;Constipation&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;9&quot;,
+        &quot;manifestation&quot; : &quot;Cough&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;17&quot;,
+        &quot;manifestation&quot; : &quot;Decreased libido&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;40&quot;,
+        &quot;manifestation&quot; : &quot;Delirium&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;4&quot;,
+        &quot;manifestation&quot; : &quot;Depression&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;65&quot;,
+        &quot;manifestation&quot; : &quot;Dermatitis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;6&quot;,
+        &quot;manifestation&quot; : &quot;Diarrhea&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;66&quot;,
+        &quot;manifestation&quot; : &quot;Difficulty swallowing&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;23&quot;,
+        &quot;manifestation&quot; : &quot;Dizziness&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;41&quot;,
+        &quot;manifestation&quot; : &quot;Drowsiness&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;19&quot;,
+        &quot;manifestation&quot; : &quot;Dry mouth&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;42&quot;,
+        &quot;manifestation&quot; : &quot;Dyspepsia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;67&quot;,
+        &quot;manifestation&quot; : &quot;Eczema&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;57&quot;,
+        &quot;manifestation&quot; : &quot;Edema&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;68&quot;,
+        &quot;manifestation&quot; : &quot;Electrocardiogram abnormal&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;43&quot;,
+        &quot;manifestation&quot; : &quot;Elevated hepatic enzymes&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;29&quot;,
+        &quot;manifestation&quot; : &quot;Exercise Intolerance&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;7&quot;,
+        &quot;manifestation&quot; : &quot;Fatigue&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;69&quot;,
+        &quot;manifestation&quot; : &quot;Fever&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;70&quot;,
+        &quot;manifestation&quot; : &quot;Flushing&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;71&quot;,
+        &quot;manifestation&quot; : &quot;Gastrointestinal hemorrhage&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;72&quot;,
+        &quot;manifestation&quot; : &quot;Gatrointestinal upset&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;21&quot;,
+        &quot;manifestation&quot; : &quot;Hallucinations&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;8&quot;,
+        &quot;manifestation&quot; : &quot;Headache&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;34&quot;,
+        &quot;manifestation&quot; : &quot;Hives&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;73&quot;,
+        &quot;manifestation&quot; : &quot;Hyperglycemia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;44&quot;,
+        &quot;manifestation&quot; : &quot;Hypertension&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;74&quot;,
+        &quot;manifestation&quot; : &quot;Hypoglycemia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;45&quot;,
+        &quot;manifestation&quot; : &quot;Hypotension&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;75&quot;,
+        &quot;manifestation&quot; : &quot;Indigestion&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;76&quot;,
+        &quot;manifestation&quot; : &quot;Insomnia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;20&quot;,
+        &quot;manifestation&quot; : &quot;Irregular menses&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;27&quot;,
+        &quot;manifestation&quot; : &quot;Irritability&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;12&quot;,
+        &quot;manifestation&quot; : &quot;Itching&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;46&quot;,
+        &quot;manifestation&quot; : &quot;Jaundice&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;77&quot;,
+        &quot;manifestation&quot; : &quot;Laryngeal spasm&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;78&quot;,
+        &quot;manifestation&quot; : &quot;Loss of appetite&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;79&quot;,
+        &quot;manifestation&quot; : &quot;Loss of sense of smell&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;80&quot;,
+        &quot;manifestation&quot; : &quot;Muscle weakness&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;54&quot;,
+        &quot;manifestation&quot; : &quot;Myalgia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;13&quot;,
+        &quot;manifestation&quot; : &quot;Nausea&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;47&quot;,
+        &quot;manifestation&quot; : &quot;Neutropenia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;36&quot;,
+        &quot;manifestation&quot; : &quot;Other&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;48&quot;,
+        &quot;manifestation&quot; : &quot;Palpitations&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;81&quot;,
+        &quot;manifestation&quot; : &quot;Pancytopenia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;25&quot;,
+        &quot;manifestation&quot; : &quot;Paresthesia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;82&quot;,
+        &quot;manifestation&quot; : &quot;Parkinsonism&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;83&quot;,
+        &quot;manifestation&quot; : &quot;Photosensitivity&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;84&quot;,
+        &quot;manifestation&quot; : &quot;Psychosis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;2&quot;,
+        &quot;manifestation&quot; : &quot;Rash&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;85&quot;,
+        &quot;manifestation&quot; : &quot;Respiratory distress&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;86&quot;,
+        &quot;manifestation&quot; : &quot;Restless legs&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;55&quot;,
+        &quot;manifestation&quot; : &quot;Rhabdomyolysis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;87&quot;,
+        &quot;manifestation&quot; : &quot;Rhinitis&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;49&quot;,
+        &quot;manifestation&quot; : &quot;Seizures&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;18&quot;,
+        &quot;manifestation&quot; : &quot;Sexual dysfunction&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;32&quot;,
+        &quot;manifestation&quot; : &quot;Shock&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;10&quot;,
+        &quot;manifestation&quot; : &quot;Shortness of breath&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;15&quot;,
+        &quot;manifestation&quot; : &quot;Sleeplessness&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;88&quot;,
+        &quot;manifestation&quot; : &quot;Sneezing&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;89&quot;,
+        &quot;manifestation&quot; : &quot;Stevens-Johnson syndrome&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;53&quot;,
+        &quot;manifestation&quot; : &quot;Swelling&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;50&quot;,
+        &quot;manifestation&quot; : &quot;Syncope&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;11&quot;,
+        &quot;manifestation&quot; : &quot;Tachycardia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;90&quot;,
+        &quot;manifestation&quot; : &quot;Tardive dyskinesia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;91&quot;,
+        &quot;manifestation&quot; : &quot;Taste sense altered&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;92&quot;,
+        &quot;manifestation&quot; : &quot;Tearing eye&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;51&quot;,
+        &quot;manifestation&quot; : &quot;Thrombocytopenia&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;52&quot;,
+        &quot;manifestation&quot; : &quot;Tinnitus&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;14&quot;,
+        &quot;manifestation&quot; : &quot;Tremor&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;26&quot;,
+        &quot;manifestation&quot; : &quot;Urinary Retention&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;24&quot;,
+        &quot;manifestation&quot; : &quot;Visual Disturbance&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;35&quot;,
+        &quot;manifestation&quot; : &quot;Vomiting&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;16&quot;,
+        &quot;manifestation&quot; : &quot;Weight gain&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;93&quot;,
+        &quot;manifestation&quot; : &quot;Weight loss&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      },
+      {
+        &quot;transid&quot; : &quot;56&quot;,
+        &quot;manifestation&quot; : &quot;Wheezing&quot;,
+        &quot;checked&quot; : &quot;N&quot;,
+        &quot;sortorder&quot; : &quot;Z&quot;
+      }
+    ];
+
+var item = reactions.find(item =&gt; item.manifestation === reaction).transid;
+
+return item; 
+}
+
+</code>
+            </properties>
+          </codeTemplate>
+        </codeTemplates>
+      </codeTemplateLibrary>
+      <codeTemplateLibrary version="3.12.0">
+        <id>04a055e9-bc7e-4de7-af2d-ed0587fcfc6d</id>
+        <name>LookupTables</name>
+        <revision>1</revision>
+        <lastModified>
+          <time>1629838065836</time>
+          <timezone>America/Chicago</timezone>
+        </lastModified>
+        <description>Library to hold lookup tables.</description>
+        <includeNewChannels>true</includeNewChannels>
+        <enabledChannelIds>
+          <string>fe0c46cd-f3f4-4f57-87c7-d7e70f0a1d58</string>
+          <string>ad73c99c-f06c-400c-b43c-6725052335d2</string>
+          <string>98a2b910-3ffa-4a60-8092-830eb6d44d6f</string>
+          <string>8c2fd7cd-c9a0-4e5d-ab54-d63725af5a05</string>
+          <string>f8ea3d2e-3db1-4e0d-bd08-24a1144fad1b</string>
+          <string>4257cc12-084a-479d-aecc-3264c5b8a1cd</string>
+          <string>43c9fae2-358b-41b1-aa42-4c9f39a66004</string>
+          <string>0ae5445e-69e5-48dd-846b-e8a380ed3626</string>
+          <string>af3fd7a7-d3c2-4239-8124-ae2569a4938c</string>
+          <string>cbf2ed53-5797-4571-b67e-9e256901c632</string>
+          <string>5cf29862-74e5-47a6-a562-f0dd2d2fc5cc</string>
+          <string>ea3dd9e4-26b3-44fc-97a5-7eaeac72be3b</string>
+          <string>678fb3d7-39d3-4a0c-b6aa-f4c8c2e8878e</string>
+          <string>4f81d4d0-87f9-4e25-812d-2ccd29c021c1</string>
+          <string>06a06060-690e-4397-8ae0-ba69201d5a1e</string>
+          <string>bc9c9853-6d25-4d91-a340-39dfe9a8dd48</string>
+          <string>c4c54013-c027-4651-8daf-f8f9c3844454</string>
+          <string>088c9ccf-84f8-4da3-ba8b-ca068a1bf1bf</string>
+          <string>d11feb04-0234-4e4b-8572-4c8ed91a4e38</string>
+          <string>c557016e-3eb6-41ee-b58a-9f1d18915eb6</string>
+          <string>0a7d7a26-a54e-4ba4-b0ae-d2f0b0106d03</string>
+          <string>5871438d-0ffd-48e7-add9-62d41bac2c96</string>
+          <string>10325bc1-d55d-4d6d-b398-e4b7d71e8a17</string>
+          <string>8e48bc4b-af4e-43fd-b8f9-72498e846b83</string>
+          <string>3d48719b-6061-4803-9e4d-57d8ce753187</string>
+          <string>02b869b6-2a81-4fc7-b35c-760b8f8511b5</string>
+          <string>90975e14-96c9-4a80-b689-8fd3b375a1e3</string>
+          <string>0f7d7dab-8d1a-4343-9911-804cce19f132</string>
+          <string>fb576e0a-8b0f-4860-8e4b-6ec307b79cca</string>
+          <string>bb8409f6-d8b4-4973-9747-aa97df73654b</string>
+          <string>af23886c-b497-40e3-ad0c-9b82b80e6906</string>
+          <string>0473ca39-031e-41fa-85d0-f1a550034097</string>
+          <string>45319106-7423-412e-b877-ce5499f8b5cb</string>
+          <string>c64cd834-7f07-4058-8e9e-ce400ab18824</string>
+          <string>984c42ce-ea85-42c9-97da-7764033236f1</string>
+          <string>5ef17124-4542-4377-b4eb-87f100f5b47b</string>
+          <string>7a58625e-bfa8-40c8-a9f4-fe49d4ecdbaa</string>
+          <string>cb9cab06-9bb4-47a6-96bb-fe3b520b8009</string>
+          <string>fba73e3b-4ee0-431e-90a9-e684e44aa27c</string>
+          <string>01b3e05f-24ad-4d77-a0e1-6629f500684e</string>
+          <string>9f4e4ea3-783d-4faf-9981-1f8d7b46f3ab</string>
+          <string>26686635-4400-4da2-84cd-fbbbda5eb368</string>
+          <string>79349a59-3e8e-4a53-bb31-4b2c2cae9900</string>
+          <string>40fc25ef-1835-413e-9fd6-34970e05c345</string>
+          <string>5500395b-033b-4009-8f0a-14e713eef47d</string>
+          <string>22fde036-2344-4119-8a12-e5a2430d2396</string>
+          <string>d0da61ae-b7ce-4047-a2eb-ce5252df03a6</string>
+          <string>bf8f3203-d227-4093-90bd-489079fc06db</string>
+          <string>741965a9-286a-4a50-9e69-1f8e09094b86</string>
+          <string>aabd5bac-9264-43e0-9d09-96f233a8f821</string>
+          <string>1f84850a-7dee-4eeb-9151-3d3213562696</string>
+          <string>5cffb3c4-eac4-423a-8c91-657c8a266041</string>
+          <string>2c1d2d84-d68a-4154-b879-bb1587da496b</string>
+          <string>bd83ee38-1c2e-44b0-b693-7f869a4bd931</string>
+          <string>cd694f36-e040-491f-a66d-f6205143cf43</string>
+          <string>e2e6a600-d60f-449f-a7ae-092fe32f32fd</string>
+          <string>cccbbd40-818b-4ea4-a35d-5f0f1cafbfdf</string>
+          <string>54284dce-bb64-45f4-ac06-2dcefed217d0</string>
+          <string>a7b6300e-e2ed-4695-81f2-19021d989314</string>
+          <string>2eb3dd01-221c-4ee3-b38d-fe03769c8671</string>
+          <string>ab7c5d6b-5d02-4a46-a7eb-8167ec182784</string>
+          <string>a3074b49-9f3b-4393-90a1-f367705dea7a</string>
+          <string>43511682-4eee-4d62-a307-1bed6ecb6de9</string>
+          <string>99a33d8a-e321-4975-9f3f-97f7501270f0</string>
+          <string>4406245d-cd8e-43ce-8fd1-2369a9a9570d</string>
+          <string>0b5a0af6-17d7-4a92-bc88-53ed4821f32c</string>
+          <string>6cdebbe1-2faa-4bdb-a41d-e675c03017db</string>
+          <string>c1f0da6f-d245-425f-b93c-de34cf5f0204</string>
+          <string>b08db4de-7d3d-44c6-8b88-eee341d892aa</string>
+          <string>37ce3842-ad95-48f9-8a80-ebcc556d5837</string>
+          <string>fd277eec-ce99-4fda-b028-a4281c13d64b</string>
+          <string>1892f241-d643-4abb-b0af-b20b87e0cf12</string>
+          <string>9c0d21f5-aac0-4afc-9b9c-3fabef07c9d8</string>
+          <string>00170997-b971-4837-a80c-7e09838cb6b7</string>
+          <string>7e41f64e-78be-4eee-8b23-22cc593412d8</string>
+          <string>ab792fc9-1871-4a8e-9424-d79604d8f73b</string>
+          <string>dd94a1ac-1c48-4160-929c-cbd113e5fa48</string>
+          <string>d0d3a02c-6b11-45e1-8af2-871a58bdce78</string>
+          <string>c01c0bc6-90dc-4278-b47a-f91708703f67</string>
+          <string>1efd2468-f154-4f59-8750-433487c2c85e</string>
+          <string>8f7901f0-1991-4ee8-a7e4-8e399f7243a8</string>
+          <string>1789856a-68e2-4b32-a977-c6a5f3b31e98</string>
+          <string>6121a499-9987-4a49-9185-9241427f4cbc</string>
+          <string>52c3cbab-623a-48d7-be94-5f5b0a65e820</string>
+          <string>479f343a-84b3-4ef4-a567-25ac2aa53d72</string>
+          <string>90b46e09-9868-46f0-8d8d-29e360eab6bf</string>
+          <string>673c798a-0551-4d96-bae8-bff2b228ea68</string>
+          <string>e66435da-3c65-4d0a-84ac-b3ceab99cc0a</string>
+          <string>643274d3-0b27-4261-9845-88bf97a1cc34</string>
+          <string>1b514f75-4a5e-432b-968c-4bd460f4469c</string>
+          <string>68166ea4-2f85-49e8-be83-04ed14c4d58e</string>
+          <string>b1496c9b-a44f-406f-b08b-9ad273d3b791</string>
+          <string>c033427b-ca32-40ee-995e-864d1cdcce56</string>
+          <string>75f792d1-4fd0-4928-8a19-4fe08fe4223c</string>
+          <string>068e9c8c-2f57-4965-b186-197c06ee1698</string>
+          <string>78e9db5d-a9e6-4c80-a632-cbd6b0fb0b94</string>
+          <string>bd5a27ac-e6f1-4a14-b7fd-ad310ed0bb12</string>
+          <string>4f370a51-c383-47c1-a85d-e09a4b15b536</string>
+          <string>d6824893-4e76-4a2f-bd19-86f0d83f1ff9</string>
+          <string>9837d0aa-2d18-49bf-a6ea-0f51b9e11b07</string>
+          <string>eca245d7-178a-477c-a99a-3d78e41d172d</string>
+          <string>b58fdbf3-7ba0-41c2-ba84-67a974ce3552</string>
+          <string>1100b187-6d00-4953-b1fd-3b03c7f42aea</string>
+          <string>21e6b321-c9b9-4df2-b1d0-74d289bfa75f</string>
+          <string>2b4af122-2751-4b1e-8e3f-6bd9d864f37f</string>
+          <string>e6d21fe1-8087-490b-9ec4-83a113caedac</string>
+          <string>957a098f-4570-4d5b-8e7e-645e406d030e</string>
+          <string>dfef687c-bd05-4f9a-b279-801a70165cc7</string>
+          <string>67f2a643-a290-4527-b8c2-94d611afd190</string>
+          <string>35feb125-fe65-4be1-a62e-2bf907d52e15</string>
+          <string>c9cb1990-03df-4c15-9f05-4e9541c5aa03</string>
+          <string>79f0e2f7-ad60-466d-8148-6274a168c1c2</string>
+          <string>7911eda4-263c-41af-b73a-862dedb334e8</string>
+          <string>3ca6a609-8f66-4086-bfd1-5745c9fc37a7</string>
+          <string>05e8b7e2-4d52-4ab8-86c5-2745cb471d63</string>
+          <string>7b583b0e-d2b5-42a9-ac0b-50d266c0853a</string>
+          <string>ce39cbb6-6941-4fd6-b006-4e72a177ac43</string>
+          <string>d4fba75c-3876-4b6a-bee0-8a524e78eb06</string>
+          <string>266fb6a3-ae62-41fe-8f38-05a4334b0dfe</string>
+          <string>68e3f318-e11f-4835-a928-44c752cbf85b</string>
+          <string>6f10e541-6bcd-46be-a514-5280b38e4ce0</string>
+          <string>4ffa3ad4-f0e3-41fc-976c-309f24ae5982</string>
+          <string>aef1ee80-675c-4dce-b3cd-524183afe727</string>
+          <string>1607d03b-c1a8-427e-ab0c-8c9265cde28d</string>
+          <string>71471c1f-76d5-4785-9c16-164a6965811e</string>
+          <string>859d9503-6e58-4cf1-80e9-045368570c6b</string>
+          <string>85da4819-5fbb-4135-b289-76cfbf283770</string>
+          <string>d1bd4a04-b1e4-450e-86bf-3bb2f013bb43</string>
+          <string>52b06701-6fb5-47fb-a21a-527093378eed</string>
+          <string>14156a66-f8d0-4280-bd30-aea85d86b547</string>
+          <string>9b1dda8a-a030-4a65-b5ef-89874b529cd2</string>
+          <string>e55ced9e-267a-4d6b-98c3-d83ec4dedd06</string>
+          <string>b397d48d-6b32-4ac9-9b96-2466192eedb0</string>
+          <string>6e0c419c-a4a7-4300-b672-b7a7dc57b216</string>
+          <string>86aa85e8-961a-4a57-8b86-715d9a8e274e</string>
+          <string>84b61eb3-8bcc-4107-ab30-ab4d46e15cb3</string>
+          <string>c948285d-27a2-4e9f-b97b-c70ca52e5bcb</string>
+          <string>cbd5ea09-5ea6-463d-9400-455030e11958</string>
+          <string>a1a92557-a174-4cbb-b906-1a0c20f50e96</string>
+          <string>d9b622e5-055a-40a1-bb98-11d7e5764ea0</string>
+          <string>54a4e2c4-3cc6-4baa-ae96-9c8a26732b49</string>
+          <string>c584f762-a193-4de3-9829-ae52858b52a7</string>
+          <string>bd298ef7-4bde-4e48-9897-5baa3f7fa992</string>
+          <string>dcff85ae-6d90-4244-9bb2-66a5bc83454d</string>
+          <string>f3c21099-5085-43ef-8e44-5ed33c063628</string>
+          <string>93b01f2f-6c9c-421f-9219-87d4712aa2e8</string>
+          <string>6647f8ee-7807-4f37-9a9f-1c80a01ae22e</string>
+          <string>833065be-0dfa-4505-a3e7-d0d19a64b958</string>
+          <string>83476c56-033e-419d-9a5d-342e503ef719</string>
+          <string>03ab4fe3-a51b-4aec-8b95-ed9e440756a8</string>
+          <string>612e9588-3ba3-4b78-87bc-b10f6409bf19</string>
+          <string>5d7dc42e-7f41-4b1c-bd81-853ed347d7b5</string>
+          <string>c64e4478-b27e-4118-b726-c2e4dc94ae67</string>
+          <string>8d9286af-08cd-4111-af15-cdaddbdff354</string>
+          <string>674895a3-8875-473e-9f80-48df6ddbc84d</string>
+          <string>0a5215a7-670e-49cc-a1d0-9112c704653c</string>
+          <string>1debc419-2af4-4f9b-9090-ec8a2983c4b9</string>
+          <string>6f3430b0-88b1-4d4c-9bf8-83e5564ded63</string>
+          <string>8cf1aa4d-a396-495a-9c4f-e9fbed5b63b8</string>
+          <string>21338181-6a92-4164-a212-72f852aa8e65</string>
+          <string>ab349917-40ae-44ff-b334-7373bcbe0bb2</string>
+          <string>e6e7f10b-50b2-46dc-a1d3-eb6276bb72a1</string>
+          <string>58ec08e0-28ae-4c60-9aee-f3335fb1669e</string>
+          <string>dcbfbe54-8488-4884-a87f-7c74c5394ab9</string>
+          <string>d59edecb-ebea-48c3-974c-b53eac106dfb</string>
+          <string>882b6379-6097-44be-aac2-38c3d93de57c</string>
+          <string>d5995254-0d02-4aa4-aec5-5d4a6d88fb15</string>
+          <string>93d3fd1c-e01d-4662-a511-f409304b7294</string>
+          <string>f6a827c1-9156-49ff-926d-605d40950302</string>
+          <string>18b52af8-2f80-4c40-b086-7f8a2ef6afcf</string>
+          <string>66245919-93b4-4ab0-bf1d-dfc86f749a04</string>
+          <string>3e5e1f51-9695-4e44-bb4a-d42b474c65cd</string>
+          <string>a7f0ddb0-32f8-48d2-bec5-cef9291eef9f</string>
+          <string>c5cdfcd0-a1ae-457c-b786-3656c7f191b4</string>
+          <string>147d3300-8604-406e-a089-13a84851e2ec</string>
+          <string>d1b7a8c3-15dc-4fe2-8344-2deeec235e3c</string>
+          <string>3ed5eb7a-403c-471f-a5ec-3a82ae56c32c</string>
+          <string>d7abfcf3-bd80-490e-a2f2-861f709a1d47</string>
+          <string>d2feff89-411c-43d1-a743-e95e8b52f747</string>
+          <string>781f1497-2554-4eca-ad9c-0d318a841aa2</string>
+        </enabledChannelIds>
+        <disabledChannelIds/>
+        <codeTemplates>
+          <codeTemplate version="3.12.0">
+            <id>70724e94-6717-4759-aefd-0ce899e018c8</id>
+            <name>TestTable</name>
+            <revision>1</revision>
+            <lastModified>
+              <time>1629838065884</time>
+              <timezone>America/Chicago</timezone>
+            </lastModified>
+            <contextSet>
+              <delegate>
+                <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+                <contextType>DESTINATION_DISPATCHER</contextType>
+                <contextType>SOURCE_RECEIVER</contextType>
+                <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+                <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+              </delegate>
+            </contextSet>
+            <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+              <type>FUNCTION</type>
+              <code>const this_table = 
+	{
+		arm:&quot;12345&quot;,
+		leg:&quot;67890&quot;,
+		head:&quot;abcde&quot;
+	}
+/**
+	Prototype 2-dimensional lookup table, returns empty string if the given query does not exist in the table
+
+	@param {String} query - the item to look up in the table
+	@return {String} response - the code found in the table
+*/
+function lookupTest(query) {
+
+	return this_table[query];
+}
+
+/**
+	Prototype 2-dimensional lookup table with given default value
+
+	@param {String} query - the item to look up in the table
+	@param {String} defaultvalue - the value to return if the given query does not exist in the table
+	@return {String} response - the code found in the table
+*/
+function lookupTest(query, defaultvalue) {
+
+	return (this_table[query] || defaultvalue);
+}</code>
+            </properties>
+          </codeTemplate>
+          <codeTemplate version="3.12.0">
+            <id>a75848b4-b454-4add-a7db-2c07be1cbc55</id>
+            <name>TranslateSex</name>
+            <revision>1</revision>
+            <lastModified>
+              <time>1629838065958</time>
+              <timezone>America/Chicago</timezone>
+            </lastModified>
+            <contextSet>
+              <delegate>
+                <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+                <contextType>DESTINATION_DISPATCHER</contextType>
+                <contextType>SOURCE_RECEIVER</contextType>
+                <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+                <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+              </delegate>
+            </contextSet>
+            <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+              <type>FUNCTION</type>
+              <code>const sex_table = 
+	{
+		Male:&quot;M&quot;,
+		Female:&quot;F&quot;,
+		Unknown:&quot;U&quot;,
+		Other:&quot;O&quot;
+	}
+/**
+	Prototype 2-dimensional lookup table, returns empty string if the given query does not exist in the table
+
+	@param {String} sex - the item to look up in the table
+	@return {String}  - the code found in the table
+*/
+function translateSex(sex) {
+
+	return sex_table[sex];
+}
+
+/**
+	Prototype 2-dimensional lookup table with given default value
+
+	@param {String} sex - the item to look up in the table
+	@param {String} defaultvalue - the value to return if the given query does not exist in the table
+	@return {String}  - the code found in the table
+*/
+function translateSex(sex, defaultvalue) {
+
+	return (sex_table[sex] || defaultvalue);
+}</code>
+            </properties>
+          </codeTemplate>
+        </codeTemplates>
+      </codeTemplateLibrary>
+    </codeTemplateLibraries>
+  </exportData>
+</channel>
