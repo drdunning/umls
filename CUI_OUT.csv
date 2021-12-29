@@ -1,11 +1,15 @@
 DX DESCRIPTION,CUI,DEFINITION
-Typhoid pneumonia,C0339956,No results containing all your search terms were found.
-Typhoid arthritis,C2880089,No results containing all your search terms were found.
-Typhoid osteomyelitis,C2880090,No results containing all your search terms were found.
-Salmonella sepsis,C0152486,Sepsis due to the presence of Salmonella bacteria in the bloodstream.
-Salmonella pneumonia,C0152489,No results containing all your search terms were found.
-Salmonella arthritis,C0152490,No results containing all your search terms were found.
-Salmonella osteomyelitis,C0152491,"Osteomyelitis caused by infection with the bacteria, salmonella. [PMID:26668420]"
-Amebic lung abscess,C0152502,No results containing all your search terms were found.
-Cryptosporidiosis,C0010418,Intestinal infection with organisms of the genus CRYPTOSPORIDIUM. It occurs in both animals and humans. Symptoms include severe DIARRHEA.
 Pneumonic plague,C0524688,No results containing all your search terms were found.
+Septicemic plague,C0152936,No results containing all your search terms were found.
+Pulmonary tularemia,C0339946,No results containing all your search terms were found.
+Pulmonary anthrax,C0155866,No results containing all your search terms were found.
+Anthrax sepsis,C0152946,No results containing all your search terms were found.
+Erysipelothrix sepsis,C0343453|C3164123,No results containing all your search terms were found.|No results containing all your search terms were found.
+Pulmonary mycobacterial infection,C0392054,No results containing all your search terms were found.
+Disseminated mycobacterium avium-intracellulare complex (DMAC),C2887058,No results containing all your search terms were found.
+Listerial sepsis,C2887062|C3163840,No results containing all your search terms were found.|No results containing all your search terms were found.
+Diphtheritic cardiomyopathy,C2887063,No results containing all your search terms were found.
+Waterhouse-Friderichsen syndrome,C0043068|C1403891,A condition of HEMORRHAGE and NECROSIS of the ADRENAL GLAND. It is characterized by rapidly developing ADRENAL INSUFFICIENCY; HYPOTENSION; and widespread cutaneous PURPURA.|No results containing all your search terms were found.
+Acute meningococcemia,C0473877,No results containing all your search terms were found.
+Chronic meningococcemia,C0343489,No results containing all your search terms were found.
+"Meningococcemia, unspecified",C0025306,No results containing all your search terms were found.
